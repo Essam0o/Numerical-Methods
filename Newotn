@@ -1,0 +1,109 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using FParsec;
+using MathNet.Symbolics;
+
+namespace Numerical_Project.Numerical_Methods
+{
+    public partial class NewtonMethod : Form
+    {
+        public NewtonMethod()
+        {
+            InitializeComponent();
+        }
+
+        double f(double x)
+        {
+            string equationString = fxText.Text;
+            SymbolicExpression equation = SymbolicExpression.Parse(equationString);
+            Dictionary<string, FloatingPoint> variables = new Dictionary<string, FloatingPoint> { { "x", x } };
+            double result = equation.Evaluate(variables).RealValue;
+            return result;
+        }
+
+
+        private double df(double x)
+        {
+            string equationString = fxText.Text;
+            SymbolicExpression equation = SymbolicExpression.Parse(equationString);
+            // to get the diffrentiaion 
+
+            SymbolicExpression derivative = equation.Differentiate("x");
+            Dictionary<string, FloatingPoint> variables = new Dictionary<string, FloatingPoint> { { "x", x } };
+            double result = derivative.Evaluate(variables).RealValue;
+            return result;
+        }
+
+        private void calc_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear();
+            // Parse the input values from the text boxes
+            double x0 = double.Parse(xoText.Text);
+            double eps = double.Parse(errorText.Text);
+            double xr = x0;
+            double xrOld = 0;
+            double error = 0;
+            int iteration = 0;
+
+            while (true)
+            {
+                // Evaluate the function and its derivative at xr
+                double x = f(xr);
+                double y = df(xr);
+
+                xrOld = xr;
+                xr = xr - (x / y);
+                error = Math.Abs((xr - xrOld) / xr) * 100;
+
+                // Add the iteration information to the data grid view
+                string iterationString = $"iteration={iteration} |  xr={xr} |    f(xr)={f(xr)}  |  fDash(xr)={df(y)}  x0={x0}   |  Error%={error}";
+                listBox1.Items.Add(iterationString);
+
+                iteration++;
+
+                if (error < eps)
+                {
+                    root.Text = xr.ToString();
+                    break;
+                }
+                x0 = xr;
+
+            }
+
+
+        }
+
+
+        private void fxText_TextChanged(object sender, EventArgs e)
+        {
+
+
+        }
+
+        private void xoText_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ex1_Click(object sender, EventArgs e)
+        {
+            fxText.Text = "-0.9*x^2+4.7*x+2.5";
+            xoText.Text = "5";
+            errorText.Text = "0.7";
+        }
+
+        private void ex2_Click(object sender, EventArgs e)
+        {
+            fxText.Text = "-x^2+1.8*x+2.5";
+            xoText.Text = "5";
+            errorText.Text = "0.2";
+        }
+    }
+}
