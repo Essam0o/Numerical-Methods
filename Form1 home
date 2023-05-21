@@ -1,0 +1,72 @@
+using Numerical_Project.New_Numerical_methods;
+using Numerical_Project.Numerical_Methods;
+
+namespace Numerical_Project
+{
+    public partial class main : Form
+    {
+        public main()
+        {
+            InitializeComponent();
+        }
+
+        private void main_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bisection_Click(object sender, EventArgs e)
+        {
+            bisection bisect = new bisection();
+            bisect.Show();
+        }
+        private void falsepos_Click(object sender, EventArgs e)
+        {
+            falsepos pos = new falsepos();
+            pos.Show();
+        }
+
+
+        private void Newton_Click(object sender, EventArgs e)
+        {
+            NewtonMethod newton = new NewtonMethod();
+            newton.Show();
+        }
+
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            GaussEliminationControl gauess = new GaussEliminationControl();
+            gauess.Show();
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            LU_Decomposition lu = new LU_Decomposition();
+            lu.Show();
+
+        }
+
+        private void secent_Click(object sender, EventArgs e)
+        {
+            secent_method secent = new secent_method();
+            secent.Show();
+        }
+
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Cramer simple = new Cramer();
+            simple.Show();
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            simplemethod simp = new simplemethod();
+            simp.Show();
+        }
+    }
+}
