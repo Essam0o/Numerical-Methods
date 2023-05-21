@@ -1,0 +1,128 @@
+using MathNet.Symbolics;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Numerical_Project.Numerical_Methods
+{
+    public partial class falsepos : Form
+    {
+        public falsepos()
+        {
+            InitializeComponent();
+        }
+
+        private void falsepos_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void fxText_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void xlText_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void calc_Click(object sender, EventArgs e)
+        {
+
+            listBox1.Items.Clear();
+
+            double xl = double.Parse(xlText.Text);
+            double xu = double.Parse(xuText.Text);
+            double eps = double.Parse(errorText.Text);
+            double xr = 0;
+            double xrOld = 0;
+            double error = 0;
+            int iteration = 0;
+
+
+            while (true)
+            {
+                // Calculate the midpoint
+                xrOld = xr;
+                xr = xu - (f(xu) * f(xl - xu)) / (f(xl) - f(xu));
+
+                // Evaluate the function at the midpoint
+
+                error = Math.Abs((xr - xrOld) / xr) * 100;
+
+                // Add the iteration data to the ListBox
+                string iterationString = $"iteration={iteration} |  xl={xl} |    f(xl)={f(xl)} |     xu={xu} |  f(xu)={f(xu)} |     xr={xr} |    f(xr)={f(xr)}  |  Error%={error}";
+                listBox1.Items.Add(iterationString);
+                // increase iter +++1
+                iteration++;
+
+                if (f(xl) * f(xr) > 0)
+                {
+                    xl = xr;
+                }
+                else
+                {
+                    xu = xr;
+                }
+                if (error < eps)
+                {
+                    root.Text = xr.ToString();
+                    break;
+                }
+
+            }
+
+
+
+        }
+
+        double f(double x)
+        {
+            string equationString = fxText.Text;
+            SymbolicExpression equation = SymbolicExpression.Parse(equationString);
+            Dictionary<string, FloatingPoint> variables = new Dictionary<string, FloatingPoint> { { "x", x } };
+            double result = equation.Evaluate(variables).RealValue;
+            return result;
+        }
+
+
+        private void root_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            fxText.Text = "-2+7*x-5*x^2+6*x^3";
+            xlText.Text = "-1";
+            xuText.Text = "0";
+            errorText.Text = "1";
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            fxText.Text = "4*x^3-6*x^2+7*x-2.3";
+            xlText.Text = "0";
+            xuText.Text = "1";
+            errorText.Text = "1";
+        }
+    }
+}
+
