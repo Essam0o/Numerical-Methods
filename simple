@@ -1,0 +1,88 @@
+using MathNet.Symbolics;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
+namespace Numerical_Project.Numerical_Methods
+{
+    public partial class simplemethod : Form
+    {
+        public simplemethod()
+        {
+            InitializeComponent();
+        }
+
+        private double g(double x)
+        {
+            string equationString = fxText.Text;
+            SymbolicExpression equation = SymbolicExpression.Parse(equationString);
+            Dictionary<string, FloatingPoint> variables = new Dictionary<string, FloatingPoint> { { "x", x } };
+            double result = equation.Evaluate(variables).RealValue;
+            return result;
+        }
+
+
+        private void calc_Click(object sender, EventArgs e)
+        {
+            double x0 = double.Parse(xoText.Text);
+            double eps = double.Parse(errorText.Text);
+            double xr = x0;
+            double xrOld = 0;
+            double error = 0;
+            int iteration = 0;
+
+
+
+
+
+            listBox1.Items.Clear();
+            while (true)
+            {
+                xrOld = xr;
+                xr = g(x0);
+                error = Math.Abs((xr - xrOld) / xr) * 100;
+
+                // Add the iteration information to the data grid view
+                string iterationString = $"iteration={iteration} , xr={xr}, g(xr)={g(xr)} , error = {error})";
+                listBox1.Items.Add(iterationString);
+                // increase iter +++1
+                iteration++;
+
+                if (error < eps)
+                {
+                    root.Text = xr.ToString();
+                    break;
+                }
+                x0 = xr;
+
+            }
+
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void simplemethod_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            fxText.Text = "sqrt(1.9*x+2.8)";
+            xoText.Text = "5";
+            errorText.Text = "0.6";
+        }
+    }
+}
