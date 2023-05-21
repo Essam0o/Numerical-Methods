@@ -1,0 +1,194 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static MathNet.Symbolics.VisualExpression;
+using System.Numerics;
+using MathNet.Numerics;
+using MathNet.Symbolics;
+
+namespace Numerical_Project.New_Numerical_methods
+{
+    public partial class GaussEliminationControl : Form
+    {
+        public GaussEliminationControl()
+        {
+            InitializeComponent();
+        }
+
+        private void GaussEliminationControl_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void M00_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void M01_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void M02_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void M03_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void M10_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void M11_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void M12_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void M13_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void M20_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void M21_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void M22_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void M23_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CalcualteBTN_Click(object sender, EventArgs e)
+        {
+            double[,] m = new double[3, 4];
+
+            m[0, 0] = double.Parse(M00.Text);
+            m[0, 1] = double.Parse(M01.Text);
+            m[0, 2] = double.Parse(M02.Text);
+            m[0, 3] = double.Parse(M03.Text);
+            m[1, 0] = double.Parse(M10.Text);
+            m[1, 1] = double.Parse(M11.Text);
+            m[1, 2] = double.Parse(M12.Text);
+            m[1, 3] = double.Parse(M13.Text);
+            m[2, 0] = double.Parse(M20.Text);
+            m[2, 1] = double.Parse(M21.Text);
+            m[2, 2] = double.Parse(M22.Text);
+            m[2, 3] = double.Parse(M23.Text);
+            double m21 = m[1, 0] / m[0, 0];
+            double m31 = m[2, 0] / m[0, 0];
+            //rule E2-(m21)E1 = E2 
+            for (int j = 0; j < 4; j++)  //r2=r2-m21*r1
+
+            {
+                double e2 = m[1, j];
+                double e1 = ((m21) * m[0, j]);
+                m[1, j] = e2 - e1;
+
+            }
+
+            //rule E3-(m31)E1 = E3
+
+            for (int j = 0; j < 4; j++)
+
+            {
+
+                double e3 = m[2, j];
+
+                double e1 = ((m31) * m[0, j]);
+
+                m[2, j] = e3 - e1;
+
+            }
+            double m32 = m[2, 1] / m[1, 1];
+
+            //rule E3-(m32)E2 = E3
+
+
+            for (int j = 0; j < 4; j++)
+            {
+                double e3 = m[2, j];
+
+                double e1 = ((m32) * m[1, j]);
+
+                m[2, j] = e3 - e1;
+            }
+
+            double x3 = m[2, 3] / m[2, 2];
+
+            double x2 = (m[1, 3] - (m[1, 2] * x3)) / m[1, 1];
+
+            double x1 = (m[0, 3] - ((m[0, 1] * x2) + (m[0, 2] * x3))) / m[0, 0];
+
+
+
+
+            M00_Copy.Text = m[0, 0].ToString();
+            M01_Copy.Text = m[0, 1].ToString();
+            M02_Copy.Text = m[0, 2].ToString();
+            M03_Copy.Text = m[0, 3].ToString();
+            M10_Copy.Text = m[1, 0].ToString();
+            M11_Copy.Text = m[1, 1].ToString();
+            M12_Copy.Text = m[1, 2].ToString();
+            M13_Copy.Text = m[1, 3].ToString();
+            M20_Copy.Text = m[2, 0].ToString();
+            M21_Copy.Text = m[2, 1].ToString();
+            M22_Copy.Text = m[2, 2].ToString();
+            M23_Copy.Text = m[2, 3].ToString();
+
+
+            X1output.Text = x1.ToString();
+            X2output.Text = x2.ToString();
+            X3output.Text = x3.ToString();
+
+
+        }
+
+        private void X1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void X2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void X3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
